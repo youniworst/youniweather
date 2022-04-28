@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header_logo">
+            <span class="header_logo_text">youniWeather</span>
+        </div>
+        <div class="header_locality">
+            <span class="header_locality_text locality"></span>
+        </div>
+        <div class="header_map-block">
+            <span class="map-block_text">change locality by map</span>
+            <div id="modal-triger" class="modal-triger">
+                <div id="modal" class="map-modal">
+                    <div id="map"></div>
+                    <div id="modal_container" class="modal_container">
+                        <p class="modal_question" id="modal_question"></p>
+                        <button class="modal_accept" id="modal_accept">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+    <main class="main">
+        <div class="title-block">
+            <h1 class="title-block_title">Weather forecast for</h1>
+            <span class="title-block_locality locality"></span>
+        </div>
+        <div id="weather-block" class="weather">
+
+        </div>
+    </main>
+    <footer class="footer"></footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

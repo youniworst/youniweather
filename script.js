@@ -79,6 +79,14 @@ class UserInfo {
         this.timeOpened = new Date();
         this.timezone = (new Date()).getTimezoneOffset() / 60
         this.position()
+            .catch(err => {
+                createMap('50.449862', '30.524035')
+                reverseGeocode('50.449862', '30.524035')
+                    .then(localityData => locality.forEach((e) => {
+                        e.innerHTML = transliterateLocationText(localityData)
+                    }))
+                changeWeatherData('50.449862', '30.524035')
+            })
     }
 
     async position() {
@@ -102,7 +110,7 @@ class UserInfo {
                 e.innerHTML = transliterateLocationText(localityData)
             }))
 
-        createMap()
+        createMap(info.lat, info.long)
         changeWeatherData(info.lat, info.long)
         return positionData
     }
@@ -136,10 +144,10 @@ function reverseGeocode(lat, long) {
         })
 }
 
-function createMap() {
-    map = L.map('map').setView([info.lat, info.long], 12);
+function createMap(lat, long) {
+    map = L.map('map').setView([lat, long], 12);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    let marker = L.marker([info.lat, info.long]).addTo(map);
+    let marker = L.marker([lat, long]).addTo(map);
 
 
     async function onMapClick(e) {
@@ -165,6 +173,7 @@ function createMap() {
             modalLocality.innerHTML = localityText
         } else {
             modalLocality.innerHTML = localityQuestion + transliterateLocationText(localityText) + '?'
+            modalButton.removeAttribute('disabled', 'disabled');
         }
         modalContainer.style.visibility = 'visible'
         modalButton.style.visibility = 'visible'
@@ -209,48 +218,49 @@ modalButton.addEventListener('click', (e) => {
 })
 
 function removePreviousWeatherForecast() {
-    let parent = weatherBlock;
+    let parent = weatherContainer;
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
-      }
+    }
 }
-let weatherBlock = document.getElementById('weather-block')
+let weatherContainer = document.getElementById('weather')
 
 async function changeWeatherData(lat, long) {
     await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&units=metric&exclude=hourly&appid=bc12083e70d2d22298c2df1cec7101d9`)
         .then(res => res.json())
         .then(res => res.list)
         .then(data => {
+            console.log(data[11]);
             data.forEach((e) => {
                 let div = document.createElement('div');
                 div.className = 'weather_block'
-                weatherBlock.append(div)
-    
+                weatherContainer.append(div)
+
                 let time = document.createElement('span')
                 time.className = 'weather_block_time'
                 time.innerHTML = e.dt_txt.slice(5, -3)
                 div.append(time)
-    
+
                 let description = document.createElement('span')
                 description.className = 'weather_block_description'
                 description.innerHTML = e.weather[0].description
                 div.append(description)
-    
+
                 let temp = document.createElement('span')
                 temp.className = 'weather_block_temp'
                 temp.innerHTML = Math.round(e.main.temp) + ' °C'
                 div.append(temp)
-    
+
                 let feelsLike = document.createElement('span')
                 feelsLike.className = 'weather_block_temp'
-                feelsLike.innerHTML ='feels like <br>' + Math.round(e.main.feels_like) + ' °C'
+                feelsLike.innerHTML = 'feels like <br>' + Math.round(e.main.feels_like) + ' °C'
                 div.append(feelsLike)
-    
+
                 let windSpeed = document.createElement('span')
                 windSpeed.className = 'weather_block_windSpeed'
                 windSpeed.innerHTML = 'wind <br>' + Math.round(e.wind.speed) + ' m/s'
                 div.append(windSpeed)
-    
+
             })
         })
 }

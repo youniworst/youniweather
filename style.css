@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .header {
     display: flex;
     height: 70px;
@@ -14,8 +18,6 @@
 .header_locality {
     letter-spacing: 2px;
     font-size: 26px;
-    max-width: 500px;
-    width: 100%;
     text-align: center;
 }
 
@@ -42,6 +44,7 @@
 }
 
 .map-modal {
+    z-index: 2;
     display: flex;
     visibility: hidden;
     flex-direction: column;
@@ -121,38 +124,95 @@
     background-color: gray;
 }
 
+.main {
+    height: 100%;
+}
+
 .title-block {
+    transform: translateX(-10%);
     padding-top: 40px;
-    max-width: 300px;
+    max-width: 400px;
     width: 100%;
     display: flex;
     flex-direction: column;
     margin: auto;
     font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .weather {
+    position: relative;
+    margin: auto;
+    max-width: 75%;
     padding: 0 10px;
+    width: 100%;
+    background-color: #2b85ad;
+}
+
+.weather_slide {
+    position: absolute;
+    top: 50%;
+    height: 30%;
+    width: 30px;
+    transform: translateY(-50%);
+}
+
+.weather_slide::after {
+    content: "<";
+}
+
+.weather_slide:first-of-type {
+    left: -40px;
+}
+
+.weather_slide:last-of-type {
+    right: -40px;
+}
+
+.weather_slide:last-of-type::after {
+    content: ">";
+}
+
+.weather_container {
     display: flex;
     align-items: center;
     height: 400px;
-    max-width: 80%;
-    margin: 0  auto;
-    overflow: scroll;
+    margin: 0 auto;
+    overflow-x: scroll;
     width: 100%;
-    background-color: teal;
 }
 
+
 .weather_block {
-    padding: 10px 0;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 150px;
+    flex-shrink: 0;
+    width: 170px;
     height: 300px;
     font-size: 20px;
     font-weight: 600;
     background-color: lightblue;
     margin-right: 20px;
+}
+
+.footer {
+    background-color: #2b85ad;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+}
+
+.footer_copyright {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: aliceblue;
+    letter-spacing: 1px;
+    font-size: 30px;
 }
